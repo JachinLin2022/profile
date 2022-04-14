@@ -1,0 +1,6 @@
+{
+    "mongourl": "mongodb://localhost:27017",
+    "db": "financialData",
+    "collection": "scrapy_items",
+    "httpPort": 3000
+}

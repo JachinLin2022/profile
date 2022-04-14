@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <title>jachinLin's Proflie</title>
+</head>
+
+<body
+  style="background: url(./img/bg.jp);background-size: cover;background-repeat:no-repeat;background-attachment: fixed;">
+  <div id="head">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="#">Visualization</a>
+        <ul class="navbar-nav	me-auto ">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="./index.html">首页</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="./visual.html">爬虫可视化</a>
+          </li>
+
+        </ul>
+      </div>
+    </nav>
+
+  </div>
+  <div class="bd">
+
+  </div>
+  <div id="content">
+    <div class="container">
+
+      <div id="articleList">
+        
+      </div>
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer">
+
+  </div>
+
+  <script>
+    let idle = 1;
+    function gen_ten_article() {
+      // for (let i = 0; i < 10; ++i) {
+      //   const articleList = document.getElementById("articleList");
+      //   const title = '惊呆！北京大学博士考街道办城管 95%拟录取考生为硕博 不乏国内外顶尖名校'
+      //   const contentShort = '　　宇宙的尽头是元宇宙还是考编？君绝对相信是考编。　　近日，北京市朝阳区公布了2022年公考拟录用人员名单，从这些拟录人员毕业院校来看，大多…'
+      //   const post_time = '2022年04月13日 16:00'
+      //   const author = '来源：中国基金报'
+      //   const article = `<div class="row" style="padding-top: 10px;"> <div class="card"> <div class="card-body"> <h5 class="card-title">${title}</h5> <p style="font-size: small;">${author}${post_time}</p> <p class="card-text">${contentShort}</p> <a href="#" class="btn btn-primary">查看全文</a> </div> </div> </div>`
+      //   articleList.innerHTML = articleList.innerHTML + article
+      // }
+      $.post("http://127.0.0.1:3000/get_random_article",
+        {
+          limit: 5
+        },
+        function (data, status) {
+          data.forEach(e => {
+            const id = e._id;
+            const title = e.title;
+            const content = e.content;
+            const post_time = e.post_time;
+            const author = e.author;
+            const article = `<div class="row" style="padding-top: 10px;"> <div class="card"> <div class="card-body"> <h5 class="card-title">${title}</h5> <p style="font-size: small;">${author}${post_time}</p> <p class="card-text">${content}</p> <a href="./article.html?id=${id}" class="btn btn-primary">查看全文</a> </div> </div> </div>`
+            articleList.innerHTML = articleList.innerHTML + article
+          });
+          idle = 1;
+        });
+    }
+    gen_ten_article()
+    var counter = 0;
+    $(window).scroll(function () {
+      if (idle && parseInt($(window).scrollTop()) === $(document).height() - $(window).height()) {
+        idle = 0;
+        gen_ten_article()
+      }
+    });
+
+
+
+
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

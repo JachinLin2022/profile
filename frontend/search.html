@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <title>jachinLin's Proflie</title>
+</head>
+
+<body
+  style="background: url(./img/bg.jp);background-size: cover;background-repeat:no-repeat;background-attachment: fixed;">
+  <div id="head">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="#">Visualization</a>
+        <ul class="navbar-nav	me-auto ">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="./index.html">首页</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="./visual.html">爬虫可视化</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="./search.html">文章搜索</a>
+          </li>
+
+        </ul>
+      </div>
+    </nav>
+
+  </div>
+
+  <div id="content">
+    <div class="container">
+      <h1 class="text-center" style="padding-top: 1%;">Article Search</h1>
+      <br>
+      <div class="input-group rounded">
+        <input type="search" class="form-control rounded" placeholder="Enter article title" aria-label="Search"
+          aria-describedby="search-addon" />
+        <span class="input-group-text border-0" role="button" id="search-addon" style="background-color: white;">
+          <i class="bi bi-search"></i>
+        </span>
+      </div>
+      <div class="d-flex justify-content-center visually-hidden" id="spinner" style="padding-top: 5%;">
+        <div class="spinner-border" role="status">
+          <span class="sr-only"></span>
+        </div>
+      </div>
+      <div id="searchResult"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+
+  </div>
+
+  <script>
+    const button = document.querySelector("#search-addon");
+    const input = document.querySelector("#content > div > div > input");
+    const articleList = document.querySelector("#searchResult");
+    const spinner = document.querySelector("#spinner");
+    button.onclick = () => {
+      search_article(input.value);
+    }
+    
+    input.addEventListener("keyup", function (event) {
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        button.click();
+      }
+    });
+
+    function get_hilight_title(title, keyword){
+      const list = title.split(keyword);
+      let hilight_title = '';
+      list.forEach(e=>{
+        hilight_title = hilight_title + e + `<span style="color: #ff0000">${keyword}</span>`;
+      });
+      return hilight_title;
+    }
+
+    function search_article(keyword) {
+      if (!keyword) {
+        console.log('keyword required');
+        return;
+      }
+      spinner.classList.remove('visually-hidden');
+      $.post("http://127.0.0.1:3000/search_article",
+        {
+          keyword: keyword
+        },
+        function (data, status) {
+          articleList.innerHTML = '';
+          data.forEach(e => {
+            const id = e._id;
+            const title = e.title;
+            const content = e.content;
+            const post_time = e.post_time;
+            const author = e.author;
+            const article = `<div class="row article" style="padding-top: 10px;"> <div class="card"> <div class="card-body"> <h5 class="card-title">${get_hilight_title(title, keyword)}</h5> <p style="font-size: small;">${author}${post_time}</p> <p class="card-text">${content}</p> <a href="./article.html?id=${id}" class="btn btn-primary">查看全文</a> </div> </div> </div>`
+            articleList.innerHTML = articleList.innerHTML + article;
+          });
+          spinner.classList.add('visually-hidden');
+        });
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

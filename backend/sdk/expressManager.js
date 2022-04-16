@@ -23,6 +23,7 @@ const expressManager = function ($) {
     $._logger.debug(`req body: ${JSON.stringify(req.body)}`);
     if (!req.body.id) {
       res.send('id required');
+      return;
     }
     $._mongoManager.findOne({'_id': ObjectId(req.body.id)}, (err, result)=>{
       res.send(result);
@@ -33,6 +34,7 @@ const expressManager = function ($) {
     $._logger.debug(`req body: ${JSON.stringify(req.body)}`);
     if (!req.body.limit) {
       res.send('limit required');
+      return;
     }
     const limit = parseInt(req.body.limit) > 10 ? 10 : parseInt(req.body.limit);
     const pipeline = [
@@ -47,6 +49,21 @@ const expressManager = function ($) {
     res.send(data);
   });
 
+  app.post('/search_article', async (req, res) => {
+    $._logger.debug(`req body: ${JSON.stringify(req.body)}`);
+    if (!req.body.keyword) {
+      res.send('keyword required');
+      return;
+    }
+    const query = { $text: { $search: req.body.keyword } };
+    const cursor = await $._mongoManager.find(query);
+    const data = [];
+    await cursor.forEach(t => {
+      t.content = t.content.substring(0, 70);
+      data.push(t);
+    });
+    res.send(data);
+  });
 };
 
 export default expressManager;

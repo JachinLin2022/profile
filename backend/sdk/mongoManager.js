@@ -21,6 +21,10 @@ mongoManager.prototype.findLimit = async function (query, limit) {
   return await this.collection.find(query).limit(limit);
 };
 
+mongoManager.prototype.find = async function (query) {
+  return await this.collection.find(query);
+};
+
 mongoManager.prototype.aggre = async function (pipeline) {
   return await this.collection.aggregate(pipeline);
 };

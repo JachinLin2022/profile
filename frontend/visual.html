@@ -24,6 +24,9 @@
             <a class="nav-link" aria-current="page" href="./index.html">首页</a>
           </li>
           <li class="nav-item">
+						<a class="nav-link" aria-current="page" href="./table.html">行情中心</a>
+					</li>
+          <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="./visual.html">爬虫可视化</a>
           </li>
           <li class="nav-item">
@@ -39,15 +42,17 @@
   </div>
   <div id="content">
     <div class="container">
-
+      <h1 class="text-center" style="padding-top: 1%;">爬虫可视化</h1>
+      <p>待爬取队列：</p>
+      <p>已爬取队列：</p>
       <div id="articleList">
         
       </div>
-      <div class="d-flex justify-content-center">
+      <!-- <div class="d-flex justify-content-center">
         <div class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -56,8 +61,8 @@
   </div>
 
   <script>
-    let idle = 1;
-    function gen_ten_article() {
+    // let idle = 1;
+    // function gen_ten_article() {
       // for (let i = 0; i < 10; ++i) {
       //   const articleList = document.getElementById("articleList");
       //   const title = '惊呆！北京大学博士考街道办城管 95%拟录取考生为硕博 不乏国内外顶尖名校'
@@ -67,31 +72,31 @@
       //   const article = `<div class="row" style="padding-top: 10px;"> <div class="card"> <div class="card-body"> <h5 class="card-title">${title}</h5> <p style="font-size: small;">${author}${post_time}</p> <p class="card-text">${contentShort}</p> <a href="#" class="btn btn-primary">查看全文</a> </div> </div> </div>`
       //   articleList.innerHTML = articleList.innerHTML + article
       // }
-      $.post("http://127.0.0.1:3000/get_random_article",
-        {
-          limit: 5
-        },
-        function (data, status) {
-          data.forEach(e => {
-            const id = e._id;
-            const title = e.title;
-            const content = e.content;
-            const post_time = e.post_time;
-            const author = e.author;
-            const article = `<div class="row" style="padding-top: 10px;"> <div class="card"> <div class="card-body"> <h5 class="card-title">${title}</h5> <p style="font-size: small;">${author}${post_time}</p> <p class="card-text">${content}</p> <a href="./article.html?id=${id}" class="btn btn-primary">查看全文</a> </div> </div> </div>`
-            articleList.innerHTML = articleList.innerHTML + article
-          });
-          idle = 1;
-        });
-    }
-    gen_ten_article()
-    var counter = 0;
-    $(window).scroll(function () {
-      if (idle && parseInt($(window).scrollTop()) === $(document).height() - $(window).height()) {
-        idle = 0;
-        gen_ten_article()
-      }
-    });
+    //   $.post("http://127.0.0.1:3000/get_random_article",
+    //     {
+    //       limit: 5
+    //     },
+    //     function (data, status) {
+    //       data.forEach(e => {
+    //         const id = e._id;
+    //         const title = e.title;
+    //         const content = e.content;
+    //         const post_time = e.post_time;
+    //         const author = e.author;
+    //         const article = `<div class="row" style="padding-top: 10px;"> <div class="card"> <div class="card-body"> <h5 class="card-title">${title}</h5> <p style="font-size: small;">${author}${post_time}</p> <p class="card-text">${content}</p> <a href="./article.html?id=${id}" class="btn btn-primary">查看全文</a> </div> </div> </div>`
+    //         articleList.innerHTML = articleList.innerHTML + article
+    //       });
+    //       idle = 1;
+    //     });
+    // }
+    // gen_ten_article()
+    // var counter = 0;
+    // $(window).scroll(function () {
+    //   if (idle && parseInt($(window).scrollTop()) === $(document).height() - $(window).height()) {
+    //     idle = 0;
+    //     gen_ten_article()
+    //   }
+    // });
 
 
 

@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
 import fs from 'fs';
 import expressManager from './sdk/expressManager.js';
-import mongoManager from './sdk/mongoManager.js';
+import elasticManager from './sdk/elasticmanager.js';
+import hbaseManager from './sdk/hbaseManager.js';
 import Logger from './sdk/logger.js';
 
 global.$ = {};
@@ -14,7 +15,8 @@ function init() {
     $._config = JSON.parse(data);
     $._logger = Logger(import.meta.url);
     $._expressManager = new expressManager($);
-    $._mongoManager = new mongoManager($);
+    $._elasticManager = new elasticManager($);
+    $._hbaseManager = new hbaseManager($);
   });
 }
 init();

@@ -13,8 +13,8 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <title>jachinLin's Proflie</title>
 </head>
-
-<body
+  
+  <body
   style="background: url(./img/bg.jp);background-size: cover;background-repeat:no-repeat;background-attachment: fixed;">
   <div id="head">
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
@@ -24,6 +24,9 @@
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="./index.html">首页</a>
           </li>
+          <li class="nav-item">
+						<a class="nav-link" aria-current="page" href="./table.html">行情中心</a>
+					</li>
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="./visual.html">爬虫可视化</a>
           </li>
@@ -40,6 +43,7 @@
   <div id="content">
     <div class="container">
       <h1 class="text-center" style="padding-top: 1%;">Article Search</h1>
+      <p class="text-center">文章数量：</p>
       <br>
       <div class="input-group rounded">
         <input type="search" class="form-control rounded" placeholder="Enter article title" aria-label="Search"
@@ -62,10 +66,18 @@
   </div>
 
   <script>
+    setInterval(() => {
+      
+    }, interval);
     const button = document.querySelector("#search-addon");
     const input = document.querySelector("#content > div > div > input");
     const articleList = document.querySelector("#searchResult");
     const spinner = document.querySelector("#spinner");
+    window.onload = ()=>{
+      if (input.value) {
+        search_article(input.value);
+      }
+    };
     button.onclick = () => {
       search_article(input.value);
     }
@@ -82,10 +94,10 @@
 
     function get_hilight_title(title, keyword){
       const list = title.split(keyword);
-      let hilight_title = '';
-      list.forEach(e=>{
-        hilight_title = hilight_title + e + `<span style="color: #ff0000">${keyword}</span>`;
-      });
+      let hilight_title = list[0];
+      for(var i=1;i<list.length;i++) {
+        hilight_title = hilight_title + `<span style="color: #ff0000">${keyword}</span>` + list[i];
+      }
       return hilight_title;
     }
 
@@ -107,7 +119,8 @@
             const content = e.content;
             const post_time = e.post_time;
             const author = e.author;
-            const article = `<div class="row article" style="padding-top: 10px;"> <div class="card"> <div class="card-body"> <h5 class="card-title">${get_hilight_title(title, keyword)}</h5> <p style="font-size: small;">${author}${post_time}</p> <p class="card-text">${content}</p> <a href="./article.html?id=${id}" class="btn btn-primary">查看全文</a> </div> </div> </div>`
+            const url = e.url;
+            const article = `<div class="row article" style="padding-top: 10px;"> <div class="card"> <div class="card-body"> <h5 class="card-title">${get_hilight_title(title, keyword)}</h5> <a href=${url}>${url}</a> <p class="card-text">${content}</p> <a href="./article.html?title=${encodeURI(title)}" class="btn btn-primary">查看全文</a> </div> </div> </div>`
             articleList.innerHTML = articleList.innerHTML + article;
           });
           spinner.classList.add('visually-hidden');

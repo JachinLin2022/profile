@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <title>jachinLin's Proflie</title>
+</head>
+
+<body
+  style="background: url(./img/bg.jp);background-size: cover;background-repeat:no-repeat;background-attachment: fixed;">
+  <div id="head">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="#">Visualization</a>
+        <ul class="navbar-nav	me-auto ">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="./index.html">首页</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="./table.html">行情中心</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="./visual.html">爬虫可视化</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="./search.html">文章搜索</a>
+          </li>
+
+        </ul>
+      </div>
+    </nav>
+
+  </div>
+
+  <div id="content">
+    <div class="container">
+      <div class="row">
+        <!-- <div class="col-2">
+                    <nav class="nav flex-column" style="border-radius: 1px;border-color: black;">
+                        <a class="nav-link active" aria-current="page" href="#">Active</a>
+                        <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link disabled">Disabled</a>
+                      </nav>
+                </div> -->
+        <div class="col-12">
+          <table class="table" id="stockTable">
+            <thead>
+              <tr>
+                <th scope="col">代码</th>
+                <th scope="col">名称</th>
+                <th scope="col">最新价</th>
+                <th scope="col">涨跌幅</th>
+                <th scope="col">涨跌额</th>
+                <th scope="col">成交量/手</th>
+                <th scope="col">成交额</th>
+                <th scope="col">振幅</th>
+                <th scope="col">最高</th>
+                <th scope="col">最低</th>
+                <th scope="col">进开</th>
+                <th scope="col">昨收</th>
+                <th scope="col">量比</th>
+                <th scope="col">换手率</th>
+                <th scope="col">市盈率</th>
+                <th scope="col">市净值</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" id="pre">
+            <a class="page-link" tabindex="-1">Previous</a>
+          </li>
+          <!-- <li class="page-item active pbtn"><a class="page-link">1</a></li>
+          <li class="page-item pbtn"><a class="page-link">2</a></li>
+          <li class="page-item pbtn"><a class="page-link">3</a></li> -->
+          <li class="page-item" id="next">
+            <a class="page-link">Next</a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+  </div>
+
+  <div id="footer">
+
+  </div>
+  <script>
+    function scan(start){
+      $.post("http://127.0.0.1:3000/get_stock_board",
+      {
+        stockNo: '*',
+        limit: 10,
+        start: start
+      },
+      function (data, status) {
+        // console.log(data)
+        // const info = JSON.parse(data);
+        // console.log(info)
+        if (status === 'success') {
+          data.forEach(info => {
+            const isGreen = info.f3 < 0 ? ` style="color: green;"` :  ` style="color: red;"`;
+            const e = `<tr> <th scope="row">${info.f12}</th> <th><a href='./trends.html?code=${info.f12}'>${info.f14}</a></th> <th>${info.f2} <th${isGreen}>${info.f3}%<th>${info.f4} <th>${info.f5} <th>${info.f6}</th> <th>${info.f7}%</th> <th>${info.f15}</th> <th>${info.f16}</th> <th>${info.f17}</th> <th>${info.f18}</th> <th>${info.f10}</th> <th>${info.f8}%</th> <th>${info.f9}</th> <th>${info.f23}</th></tr>`;
+            table.innerHTML += e;
+          });
+          const end = data[data.length-1].f12;
+          if (page.length < currentPage + 1) {
+            page.push({
+            start:start,
+            end:end
+          });
+          }
+        }
+      });
+    }
+    // let lastCode = ''
+    let currentPage = 0;
+    const page = []
+    const backpage = document.getElementById('pre')
+    const nextpage = document.getElementById('next')
+    backpage.onclick = ()=>{
+        if (currentPage === 1){
+          alert('无法翻到前一页');
+          return;
+        }
+        table.innerHTML = ''
+        scan(page[currentPage-2].start)
+        // page[currentPage].classList.remove('active')
+        // page[i].classList.add('active')
+        currentPage --;
+      };
+    nextpage.onclick = ()=>{
+        table.innerHTML = ''
+        scan(page[currentPage-1].end)
+        currentPage ++;
+      };
+    // const page = document.getElementsByClassName('pbtn')
+    // for (let i=0;i<page.length;++i) {
+    //   page[i].onclick = ()=>{
+    //     // alert(lastCode);
+    //     table.innerHTML = ''
+    //     scan(lastCode)
+    //     page[currentPage].classList.remove('active')
+    //     currentPage = i;
+    //     page[i].classList.add('active')
+    //   };
+    // }
+
+    const table = document.querySelector("#stockTable > tbody");
+    scan('000001');
+    currentPage++;
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -24,6 +24,9 @@
                         <a class="nav-link active" aria-current="page" href="./index.html">首页</a>
                     </li>
                     <li class="nav-item">
+						<a class="nav-link" aria-current="page" href="./table.html">行情中心</a>
+					</li>
+                    <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="./visual.html">爬虫可视化</a>
                     </li>
                     <li class="nav-item">
@@ -54,22 +57,25 @@
             var vars = query.split("&");
             for (var i = 0; i < vars.length; i++) {
                 var pair = vars[i].split("=");
-                if (pair[0] == variable) { return pair[1]; }
+                if (pair[0] == variable) { 
+                    return decodeURI(pair[1]); 
+                }
             }
             return (false);
         }
         $.post("http://127.0.0.1:3000/get_article",
             {
-                id: getQueryVariable('id')
+                title: getQueryVariable('title')
             },
             function (data, status) {
                 const title = data.title;
                 const content = data.content;
                 const post_time = data.post_time;
                 const author = data.author;
+                const url = data.url;
                 document.querySelector("#content > div > h1").innerHTML = title;
                 document.querySelector("#content > div > p:nth-child(3)").innerHTML = content;
-                document.querySelector("#content > div > p:nth-child(2)").innerHTML = `${author} ${post_time}`;
+                document.querySelector("#content > div > p:nth-child(2)").innerHTML = `来源：${url}`;
             });
     </script>
 

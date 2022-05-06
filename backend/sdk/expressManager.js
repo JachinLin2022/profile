@@ -20,7 +20,7 @@ const expressManager = function ($) {
   });
 
   // app.post('/get_article', async (req, res) => {
-  //   $._logger.debug(`req body: ${JSON.stringify(req.body)}`);
+  //   $._logger.debug(`req url: ${req.url}, req body: ${JSON.stringify(req.body)}`);
   //   if (!req.body.id) {
   //     res.send('id required');
   //     return;
@@ -31,7 +31,7 @@ const expressManager = function ($) {
   // });
 
   // app.post('/get_random_article', async (req, res) => {
-  //   $._logger.debug(`req body: ${JSON.stringify(req.body)}`);
+  //   $._logger.debug(`req url: ${req.url}, req body: ${JSON.stringify(req.body)}`);
   //   if (!req.body.limit) {
   //     res.send('limit required');
   //     return;
@@ -50,7 +50,7 @@ const expressManager = function ($) {
   // });
 
   // app.post('/search_article', async (req, res) => {
-  //   $._logger.debug(`req body: ${JSON.stringify(req.body)}`);
+  //   $._logger.debug(`req url: ${req.url}, req body: ${JSON.stringify(req.body)}`);
   //   if (!req.body.keyword) {
   //     res.send('keyword required');
   //     return;
@@ -65,7 +65,7 @@ const expressManager = function ($) {
   //   res.send(data);
   // });
   app.post('/search_article', async (req, res) => {
-    $._logger.debug(`req body: ${JSON.stringify(req.body)}`);
+    $._logger.debug(`req url: ${req.url}, req body: ${JSON.stringify(req.body)}`);
     if (!req.body.keyword) {
       res.send('keyword required');
       return;
@@ -88,7 +88,7 @@ const expressManager = function ($) {
   });
 
   app.post('/get_article', async (req, res) => {
-    $._logger.debug(`req body: ${JSON.stringify(req.body)}`);
+    $._logger.debug(`req url: ${req.url}, req body: ${JSON.stringify(req.body)}`);
     if (!req.body.title) {
       res.send('keyword required');
       return;
@@ -112,7 +112,7 @@ const expressManager = function ($) {
   });
 
   app.post('/get_stock_board', async (req, res) => {
-    $._logger.debug(`req body: ${JSON.stringify(req.body)}`);
+    $._logger.debug(`req url: ${req.url}, req body: ${JSON.stringify(req.body)}`);
     if (!req.body.stockNo) {
       res.send('stockNo required');
       return;
@@ -132,7 +132,7 @@ const expressManager = function ($) {
   });
 
   app.post('/get_stock_trend', async (req, res) => {
-    $._logger.debug(`req body: ${JSON.stringify(req.body)}`);
+    $._logger.debug(`req url: ${req.url}, req body: ${JSON.stringify(req.body)}`);
     if (!req.body.stockNo) {
       res.send('stockNo required');
       return;
@@ -141,8 +141,18 @@ const expressManager = function ($) {
     res.send(rsp[0].$.split(';'));
   });
 
+  app.post('/get_stock_kline', async (req, res) => {
+    $._logger.debug(`req url: ${req.url}, req body: ${JSON.stringify(req.body)}`);
+    if (!req.body.stockNo) {
+      res.send('stockNo required');
+      return;
+    }
+    const rsp = await $._hbaseManager.getStockKline(req.body.stockNo);
+    res.send(rsp[0].$.split(';').slice(60));
+  });
+
   app.post('/scan_stock_board', async (req, res) => {
-    $._logger.debug(`req body: ${JSON.stringify(req.body)}`);
+    $._logger.debug(`req url: ${req.url}, req body: ${JSON.stringify(req.body)}`);
     if (!req.body.start) {
       res.send('start required');
       return;

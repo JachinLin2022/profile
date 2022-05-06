@@ -55,6 +55,20 @@ hbaseManager.prototype.getStockTrend = async function(rowKey) {
   });
 };
 
+hbaseManager.prototype.getStockKline = async function(rowKey) {
+  return new Promise((resolve, reject)=>{
+    this.stockTable.row(rowKey).get('info:kline', (err, res)=>{
+      if (err) {
+        this.$._logger.debug(err);
+      return resolve('');
+      }
+      if (res) {
+        return resolve(res);
+      }
+    });
+  });
+};
+
 hbaseManager.prototype.scanStockBoard = async function(start) {
   return new Promise((resolve, reject)=>{
     this.stockTable.scan({

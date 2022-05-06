@@ -21,8 +21,11 @@
         <a class="navbar-brand" href="#">Visualization</a>
         <ul class="navbar-nav	me-auto ">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="./index.html">首页</a>
+            <a class="nav-link active" aria-current="page" href="http://192.168.137.128:16010/master-status">数据库状态</a>
           </li>
+          <li class="nav-item">
+						<a class="nav-link" aria-current="page" href="http://192.168.137.128:9870/dfshealth.html#tab-overview">集群状态</a>
+					</li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="./table.html">行情中心</a>
           </li>
@@ -79,13 +82,13 @@
       </div>
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-          <li class="page-item" id="pre">
+          <li class="page-item" id="pre" role="button">
             <a class="page-link" tabindex="-1">Previous</a>
           </li>
           <!-- <li class="page-item active pbtn"><a class="page-link">1</a></li>
           <li class="page-item pbtn"><a class="page-link">2</a></li>
           <li class="page-item pbtn"><a class="page-link">3</a></li> -->
-          <li class="page-item" id="next">
+          <li class="page-item" id="next" role="button">
             <a class="page-link">Next</a>
           </li>
         </ul>
@@ -99,9 +102,8 @@
   </div>
   <script>
     function scan(start){
-      $.post("http://127.0.0.1:3000/get_stock_board",
+      $.post("http://127.0.0.1:5000/get_stock_board",
       {
-        stockNo: '*',
         limit: 10,
         start: start
       },
@@ -110,9 +112,10 @@
         // const info = JSON.parse(data);
         // console.log(info)
         if (status === 'success') {
+          data = data.data;
           data.forEach(info => {
             const isGreen = info.f3 < 0 ? ` style="color: green;"` :  ` style="color: red;"`;
-            const e = `<tr> <th scope="row">${info.f12}</th> <th><a href='./trends.html?code=${info.f12}'>${info.f14}</a></th> <th>${info.f2} <th${isGreen}>${info.f3}%<th>${info.f4} <th>${info.f5} <th>${info.f6}</th> <th>${info.f7}%</th> <th>${info.f15}</th> <th>${info.f16}</th> <th>${info.f17}</th> <th>${info.f18}</th> <th>${info.f10}</th> <th>${info.f8}%</th> <th>${info.f9}</th> <th>${info.f23}</th></tr>`;
+            const e = `<tr> <th scope="row"><a href='./kline.html?code=${info.f12}'>${info.f12}</a></th> <th><a href='./trends.html?code=${info.f12}'>${info.f14}</a></th> <th>${info.f2} <th${isGreen}>${info.f3}%<th>${info.f4} <th>${info.f5} <th>${info.f6}</th> <th>${info.f7}%</th> <th>${info.f15}</th> <th>${info.f16}</th> <th>${info.f17}</th> <th>${info.f18}</th> <th>${info.f10}</th> <th>${info.f8}%</th> <th>${info.f9}</th> <th>${info.f23}</th></tr>`;
             table.innerHTML += e;
           });
           const end = data[data.length-1].f12;

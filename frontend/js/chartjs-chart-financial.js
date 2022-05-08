@@ -242,8 +242,9 @@ FinancialController.overrides = {
 					}
 
 					const {o, h, l, c} = point;
-
+					// console.log(point)
 					return `O: ${o}  H: ${h}  L: ${l}  C: ${c}`;
+					
 				}
 			}
 		}

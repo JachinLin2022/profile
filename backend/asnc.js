@@ -4,7 +4,7 @@ process.setMaxListeners(0);
 var es =  new Client({
     node: 'http://192.168.137.128:9200'
   });
-var client = hbase({ host: '192.168.137.128', port: 8888});
+var client = hbase({ host: '192.168.137.129', port: 8888});
 var scanner = client
                 .table('news')
                 .scan({
@@ -23,7 +23,7 @@ scanner.on('readable', function(){
               // id: article.title,
               body: {
                 title: article.title,
-                content: article.content,
+                content: article.content.substr(0, 50),
                 url: article.url
             }
           });

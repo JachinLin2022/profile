@@ -29,8 +29,9 @@
             <a class="nav-link active" aria-current="page" href="http://192.168.137.128:16010/master-status">数据库状态</a>
           </li>
           <li class="nav-item">
-						<a class="nav-link" aria-current="page" href="http://192.168.137.128:9870/dfshealth.html#tab-overview">集群状态</a>
-					</li>
+            <a class="nav-link" aria-current="page"
+              href="http://192.168.137.128:9870/dfshealth.html#tab-overview">集群状态</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="./table.html">行情中心</a>
           </li>
@@ -49,11 +50,10 @@
 
   <div id="content">
     <div class="container">
-      <h1 class="text-center" id="title">Article Search</h1>
+      <h1 class="text-center" id="title">K线形态拟合</h1>
       <div>
+        <canvas id="overlay" style="position:absolute;pointer-events:none;"></canvas>
         <canvas id="myChart"></canvas>
-      </div>
-      <div>
         <canvas id="myChart2"></canvas>
       </div>
     </div>
@@ -75,28 +75,36 @@
       }
       return (false);
     }
-    
-    let myChart;
+
+    let chart, chart2;
     const config = {
       type: 'candlestick',
       data: {
         datasets: [{
           label: 'K线',
           color: {
-            up:'#ff0000',
-            down:'#009900',
+            up: '#ff0000',
+            down: '#009900',
             unchanged: '#999',
           }
         }]
       },
       options: {
-        // This chart will not respond to mousemove, etc
-        // events: ['click']
+        responsive: true
+        // onClick: function (e) {
+        // const canvasPosition = Chart.helpers.getRelativePosition(e, chart);
+        // const dataX = chart.scales.x.getValueForPixel(canvasPosition.x);
+        // console.log(chart.scales.x.getLabelForValue(dataX))
+        // const dataY = chart.scales.y.getValueForPixel(canvasPosition.y);
+
+        // console.log(new Date(dataX));
+        // }
       }
     }
 
-
-    $.post("http://127.0.0.1:5000/get_stock_kline",
+    let startDataX;
+    let endDataX;
+    $.post("http://192.168.137.128:5000/get_stock_kline",
       {
         stockNo: getQueryVariable('code')
       },
@@ -116,21 +124,106 @@
           });
           // console.log(format);
           config.data.datasets[0].data = format;
+          const canvas = document.getElementById('myChart');
           const ctx = document.getElementById('myChart').getContext('2d');
-          ctx.canvas.width = 700;
-          ctx.canvas.height = 250;
-          myChart = new Chart(
+          // ctx.canvas.width = 700;
+          // ctx.canvas.height = 150;
+          chart = new Chart(
             ctx,
             config
           );
+          var overlay = document.getElementById('overlay');
+          overlay.width = canvas.width;
+          overlay.height = canvas.height;
+          var selectionContext = overlay.getContext('2d');
+          var selectionRect = {
+            w: 0,
+            startX: 0,
+            startY: 0
+          };
+          var drag = false;
+          canvas.addEventListener('pointerdown', evt => {
+            selectionContext.clearRect(0, 0, canvas.width, canvas.height);
+            const canvasPosition = Chart.helpers.getRelativePosition(evt, chart);
+            startDataX = chart.scales.x.getValueForPixel(canvasPosition.x);
+            const rect = canvas.getBoundingClientRect();
+            selectionRect.startX = evt.clientX - rect.left;
+            selectionRect.startY = chart.chartArea.top;
+            drag = true;
+            // save points[0]._index for filtering
+          });
+          canvas.addEventListener('pointermove', evt => {
 
-          // const ctx2 = document.getElementById('myChart2').getContext('2d');
-          // ctx2.canvas.width = 700;
-          // ctx2.canvas.height = 250;
-          // const myChart2 = new Chart(
-          //   ctx2,
-          //   config
-          // );
+            const rect = canvas.getBoundingClientRect();
+            if (drag) {
+              const rect = canvas.getBoundingClientRect();
+              selectionRect.w = (evt.clientX - rect.left) - selectionRect.startX;
+              selectionContext.globalAlpha = 0.5;
+              selectionContext.clearRect(0, 0, canvas.width, canvas.height);
+              selectionContext.fillRect(selectionRect.startX,
+                selectionRect.startY,
+                selectionRect.w,
+                chart.chartArea.bottom - chart.chartArea.top);
+            } else {
+              // console.log(777);
+              // selectionContext.clearRect(0, 0, canvas.width, canvas.height);
+              // var x = evt.clientX - rect.left;
+              // if (x > chart.chartArea.left) {
+              //   selectionContext.fillRect(x,
+              //     chart.chartArea.top,
+              //     1,
+              //     chart.chartArea.bottom - chart.chartArea.top);
+              // }
+            }
+          });
+          canvas.addEventListener('pointerup', evt => {
+            const canvasPosition = Chart.helpers.getRelativePosition(evt, chart);
+            endDataX = chart.scales.x.getValueForPixel(canvasPosition.x);
+            drag = false;
+            if (startDataX !== endDataX) {
+              $.post("http://192.168.1.102:5000/match_kline",
+                {
+                  target: getQueryVariable('code'),
+                  start: startDataX,
+                  end: endDataX
+                },
+                function (data, status) {
+                  console.log(data)
+                  $.post("http://192.168.137.128:5000/get_stock_kline",
+                    {
+                      stockNo: data
+                    },
+                    function (data, status) {
+                      if (status === 'success') {
+                        
+                        data = data.data;
+                        const format = []
+                        data.forEach(e => {
+                          const split = e.split(',');
+                          format.push({
+                            x: new Date(split[0]).getTime(),
+                            o: split[1],
+                            h: split[3],
+                            l: split[4],
+                            c: split[2],
+                          });
+                        });
+                        config.data.datasets[0].data = format;
+                        const canvas2 = document.getElementById('myChart2');
+                        const ctx2 = document.getElementById('myChart2').getContext('2d');
+                        if (chart2) {
+                          chart2.destroy();
+                        }
+                        chart2 = new Chart(
+                          ctx2,
+                          config
+                        );
+                      }
+                    });
+                });
+            }
+
+          });
         }
       }
     );

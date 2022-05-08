@@ -13263,7 +13263,6 @@ Chart.Chart = Chart;
 if (typeof window !== 'undefined') {
   window.Chart = Chart;
 }
-
 return Chart;
 
 }));

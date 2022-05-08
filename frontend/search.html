@@ -69,9 +69,6 @@
   </div>
 
   <script>
-    setInterval(() => {
-      
-    }, interval);
     const button = document.querySelector("#search-addon");
     const input = document.querySelector("#content > div > div > input");
     const articleList = document.querySelector("#searchResult");
@@ -110,11 +107,12 @@
         return;
       }
       spinner.classList.remove('visually-hidden');
-      $.post("http://127.0.0.1:3000/search_article",
+      $.post("http://192.168.1.102:5000/search_article",
         {
           keyword: keyword
         },
         function (data, status) {
+          data = data.data;
           articleList.innerHTML = '';
           data.forEach(e => {
             const id = e._id;

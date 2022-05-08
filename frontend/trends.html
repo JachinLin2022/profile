@@ -89,14 +89,13 @@
         ],
       }]
     };
-
+    let myChart;
     const config = {
       type: 'line',
       data: data,
-      options: {}
     };
 
-    $.post("http://127.0.0.1:5000/get_stock_trend",
+    $.post("http://192.168.137.128:5000/get_stock_trend",
       {
         stockNo: getQueryVariable('code')
       },
@@ -110,10 +109,12 @@
           });
           // console.log(format);
           config.data.datasets[0].data = format;
-          const myChart = new Chart(
-            document.getElementById('myChart'),
+          const ctx = document.getElementById("myChart").getContext('2d');
+          myChart = new Chart(
+            ctx,
             config
           );
+          // console.log(Chart.helpers)
         }
       }
     );

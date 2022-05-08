@@ -65,89 +65,177 @@
           </tr>
         </tbody>
       </table>
+      <br>
+      <div class="scrpitTable">
+        <h4>192.168.1.102</h4>
+        <table class="table" id="linkSpider">
+          <thead>
+            <tr>
+              <th scope="col">爬虫脚本</th>
+              <th scope="col">脚本描述</th>
+              <th scope="col">状态</th>
+              <th scope="col">控制</th>
+              <th scope="col">编辑</th>
+              <th scope="col">保存</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">link.py</th>
+              <td>从搜索引擎爬取金融资讯链接存入Redis</td>
+              <td>停止</td>
+              <td><button class="start btn btn-primary btn-sm">启动</button></td>
+              <td><button class="btn btn-primary btn-sm editLink" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                aria-expanded="false" aria-controls="collapseExample">
+                编辑脚本
+              </button></td>
+              <td><button class="saveLink btn btn-primary btn-sm">保存脚本</button></td>
+            </tr>
+            <tr>
+              <th scope="row">news.py</th>
+              <td>从redis取出链接爬取资讯</td>
+              <td>停止</td>
+              <td><button class="start btn btn-primary btn-sm">启动</button></td>
+              <td><button class="btn btn-primary btn-sm editLink" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                aria-expanded="false" aria-controls="collapseExample">
+                编辑脚本
+              </button></td>
+              <td><button class="saveLink btn btn-primary btn-sm">保存脚本</button></td>
+            </tr>
+            
+            <tr>
+              <th scope="row">stock.py</th>
+              <td>爬取股票数据</td>
+              <td>停止</td>
+              <td><button class="start btn btn-primary btn-sm">启动</button></td>
+              <td><button class="btn btn-primary btn-sm editLink" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                aria-expanded="false" aria-controls="collapseExample">
+                编辑脚本
+              </button></td>
+              <td><button class="saveLink btn btn-primary btn-sm">保存脚本</button></td>
+            </tr>
 
-      <table class="table" id="linkSpider">
-        <br>
-        <h3>linkSpider</h3>
-        <thead>
-          <tr>
-            <th scope="col">所在服务器</th>
-            <th scope="col">状态</th>
-            <th scope="col">控制</th>
-            <th scope="col">编辑</th>
-            <th scope="col">保存</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">192.168.1.102</th>
-            <td>停止</td>
-            <td><button class="start btn btn-primary btn-sm">启动</button></td>
-            <td><button class="btn btn-primary btn-sm editLink" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-              aria-expanded="false" aria-controls="collapseExample">
-              编辑脚本
-            </button></td>
-            <td><button class="saveLink btn btn-primary btn-sm">保存脚本</button></td>
-          </tr>
-          <tr>
-            <th scope="row">192.168.137.128</th>
-            <td>停止</td>
-            <td><button class="start btn btn-primary btn-sm">启动</button></td>
-            <td><button class="btn btn-primary btn-sm editLink" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-              aria-expanded="false" aria-controls="collapseExample">
-              编辑脚本
-            </button></td>
-            <td><button class="saveLink btn btn-primary btn-sm">保存脚本</button></td>
-          </tr>
-          <tr>
-            <th scope="row">192.168.137.129</th>
-            <td>停止</td>
-            <td><button class="start btn btn-primary btn-sm">启动</button></td>
-            <td><button class="btn btn-primary btn-sm editLink" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-              aria-expanded="false" aria-controls="collapseExample">
-              编辑脚本
-            </button></td>
-            <td><button class="saveLink btn btn-primary btn-sm">保存脚本</button></td>
-          </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+        <div class="collapse" id="collapseExample">
+          <textarea id="linkSpiderScript" class="form-control" aria-label="With textarea" style="height: 300px;"></textarea>
+        </div>
+      </div>
+      
+      <div class="scrpitTable">
+        <h4>192.168.137.128</h4>
+        <table class="table" id="linkSpider">
+          <thead>
+            <tr>
+              <th scope="col">爬虫脚本</th>
+              <th scope="col">脚本描述</th>
+              <th scope="col">状态</th>
+              <th scope="col">控制</th>
+              <th scope="col">编辑</th>
+              <th scope="col">保存</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">link.py</th>
+              <td>从搜索引擎爬取金融资讯链接存入Redis</td>
+              <td>停止</td>
+              <td><button class="start btn btn-primary btn-sm">启动</button></td>
+              <td><button class="btn btn-primary btn-sm editLink" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample2"
+                aria-expanded="false" aria-controls="collapseExample2">
+                编辑脚本
+              </button></td>
+              <td><button class="saveLink btn btn-primary btn-sm">保存脚本</button></td>
+            </tr>
+            <tr>
+              <th scope="row">news.py</th>
+              <td>从redis取出链接爬取资讯</td>
+              <td>停止</td>
+              <td><button class="start btn btn-primary btn-sm">启动</button></td>
+              <td><button class="btn btn-primary btn-sm editLink" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample2"
+                aria-expanded="false" aria-controls="collapseExample2">
+                编辑脚本
+              </button></td>
+              <td><button class="saveLink btn btn-primary btn-sm">保存脚本</button></td>
+            </tr>
 
-      <div class="collapse" id="collapseExample">
-        <textarea id="linkSpiderScript" class="form-control" aria-label="With textarea" style="height: 300px;"></textarea>
+            <tr>
+              <th scope="row">stock.py</th>
+              <td>爬取股票数据</td>
+              <td>停止</td>
+              <td><button class="start btn btn-primary btn-sm">启动</button></td>
+              <td><button class="btn btn-primary btn-sm editLink" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample2"
+                aria-expanded="false" aria-controls="collapseExample2">
+                编辑脚本
+              </button></td>
+              <td><button class="saveLink btn btn-primary btn-sm">保存脚本</button></td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <div class="collapse" id="collapseExample2">
+          <textarea id="linkSpiderScript" class="form-control" aria-label="With textarea" style="height: 300px;"></textarea>
+        </div>
       </div>
 
-      <table class="table" id="newsSpider">
-        <br>
-        <h3>newsSpider</h3>
-        <thead>
-          <tr>
-            <th scope="col">所在服务器</th>
-            <th scope="col">状态</th>
-            <th scope="col">控制</th>
-            <th scope="col">控制</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">192.168.1.102</th>
-            <td>停止</td>
-            <td><button class="start btn btn-primary btn-sm">启动</button></td>
-            <td><button>停止</button></td>
-          </tr>
-          <tr>
-            <th scope="row">192.168.137.128</th>
-            <td>停止</td>
-            <td><button class="start btn btn-primary btn-sm">启动</button></td>
-            <td><button>停止</button></td>
-          </tr>
-          <tr>
-            <th scope="row">192.168.137.129</th>
-            <td>停止</td>
-            <td><button class="start btn btn-primary btn-sm">启动</button></td>
-            <td><button>停止</button></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="scrpitTable">
+        <h4>192.168.137.129</h4>
+        <table class="table" id="linkSpider">
+          <thead>
+            <tr>
+              <th scope="col">爬虫脚本</th>
+              <th scope="col">脚本描述</th>
+              <th scope="col">状态</th>
+              <th scope="col">控制</th>
+              <th scope="col">编辑</th>
+              <th scope="col">保存</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">link.py</th>
+              <td>从搜索引擎爬取金融资讯链接存入Redis</td>
+              <td>停止</td>
+              <td><button class="start btn btn-primary btn-sm">启动</button></td>
+              <td><button class="btn btn-primary btn-sm editLink" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample3"
+                aria-expanded="false" aria-controls="collapseExample3">
+                编辑脚本
+              </button></td>
+              <td><button class="saveLink btn btn-primary btn-sm">保存脚本</button></td>
+            </tr>
+            <tr>
+              <th scope="row">news.py</th>
+              <td>从redis取出链接爬取资讯</td>
+              <td>停止</td>
+              <td><button class="start btn btn-primary btn-sm">启动</button></td>
+              <td><button class="btn btn-primary btn-sm editLink" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample3"
+                aria-expanded="false" aria-controls="collapseExample3">
+                编辑脚本
+              </button></td>
+              <td><button class="saveLink btn btn-primary btn-sm">保存脚本</button></td>
+            </tr>
+
+            <tr>
+              <th scope="row">stock.py</th>
+              <td>爬取股票数据</td>
+              <td>停止</td>
+              <td><button class="start btn btn-primary btn-sm">启动</button></td>
+              <td><button class="btn btn-primary btn-sm editLink" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample3"
+                aria-expanded="false" aria-controls="collapseExample3">
+                编辑脚本
+              </button></td>
+              <td><button class="saveLink btn btn-primary btn-sm">保存脚本</button></td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <div class="collapse" id="collapseExample3">
+          <textarea id="linkSpiderScript" class="form-control" aria-label="With textarea" style="height: 300px;"></textarea>
+        </div>
+      </div>
+
+      
+
     </div>
   </div>
 
@@ -158,11 +246,12 @@
   <script>
     const crawl = document.querySelector("#crawl_url");
     const start = document.querySelector("#start_url");
-    const linkSpiderScript = document.querySelector("#linkSpiderScript");
-    function save_link_spider(server) {
-      $.post(`http://${server}:5000/save_link_spider`,
+    // const linkSpiderScript = document.querySelector("#linkSpiderScript");
+    function save_spider(server, spider, textArea) {
+      $.post(`http://${server}:5000/save_spider`,
         {
-          content : linkSpiderScript.value
+          spider:spider,
+          content : textArea.value
         },
         function (data, status) {
           if (data) {
@@ -170,18 +259,19 @@
           };
         });
     }
-    function get_link_spider(server) {
-      $.post(`http://${server}:5000/get_link_spider`,
+    function get_spider(server, spider, textArea) {
+      $.post(`http://${server}:5000/get_spider`,
         {
+          spider: spider
         },
         function (data, status) {
           if (data) {
-            linkSpiderScript.innerHTML = data;
+            textArea.innerHTML = data;
           };
         });
     }
     function update_redis_info() {
-      $.post("http://127.0.0.1:5000/get_redis_info",
+      $.post("http://192.168.137.128:5000/get_redis_info",
         {
         },
         function (data, status) {
@@ -190,9 +280,10 @@
         });
     };
 
-    function run_link_spider(server, statusNode) {
-      $.post(`http://${server}:5000/run_link_spider`,
+    function run_spider(server, spider, statusNode) {
+      $.post(`http://${server}:5000/run_spider`,
         {
+          spider:spider
         },
         function (data, status) {
           if (data === 'ok') {
@@ -210,23 +301,26 @@
     for (let i = 0; i < start_buttons.length; ++i) {
       start_buttons[i].onclick = () => {
         const status = start_buttons[i].parentElement.previousElementSibling;
-        const server = status.previousElementSibling;
-        console.log(server.innerHTML);
+        const script = status.previousElementSibling.previousElementSibling;
+        const server = script.parentElement.parentElement.parentElement.previousElementSibling;
         status.innerHTML = '运行';
         // alert('启动');
-        run_link_spider(server.innerHTML, status);
+        run_spider(server.innerHTML,script.innerHTML ,status);
       };
     }
 
     const editLinkButtons = document.getElementsByClassName('editLink');
     for (let i = 0; i < editLinkButtons.length; ++i) {
       editLinkButtons[i].onclick = () => {
-        linkSpiderScript.innerHTML = ''
+        
         const status = start_buttons[i].parentElement.previousElementSibling;
-        const server = status.previousElementSibling;
-        console.log(server.innerHTML);
-        // status.innerHTML = '运行';
-        get_link_spider(server.innerHTML);
+        const script = status.previousElementSibling.previousElementSibling;
+        const server = script.parentElement.parentElement.parentElement.previousElementSibling;
+        const textArea = script.parentElement.parentElement.parentElement.nextElementSibling.childNodes[1];
+        textArea.innerHTML = '';
+        // console.log(script.innerHTML);
+        // console.log(server.innerHTML);
+        get_spider(server.innerHTML, script.innerHTML, textArea);
         // alert('启动');
       };
     }
@@ -235,11 +329,11 @@
     for (let i = 0; i < saveLinkButtons.length; ++i) {
       saveLinkButtons[i].onclick = () => {
         const status = start_buttons[i].parentElement.previousElementSibling;
-        const server = status.previousElementSibling;
-        // console.log(linkSpiderScript.innerHTML);
-        // status.innerHTML = '运行';
-        console.log(linkSpiderScript.value);
-        save_link_spider(server.innerHTML);
+        const script = status.previousElementSibling.previousElementSibling;
+        const server = script.parentElement.parentElement.parentElement.previousElementSibling;
+        const textArea = script.parentElement.parentElement.parentElement.nextElementSibling.childNodes[1];
+        // console.log(script.innerHTML);
+        save_spider(server.innerHTML,script.innerHTML,textArea);
         // alert('启动');
       };
     }

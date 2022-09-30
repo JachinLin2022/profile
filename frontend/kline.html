@@ -50,10 +50,11 @@
 
   <div id="content">
     <div class="container">
-      <h1 class="text-center" id="title">K线形态拟合</h1>
+      <h1 class="text-center" id="title"></h1>
       <div>
         <canvas id="overlay" style="position:absolute;pointer-events:none;"></canvas>
         <canvas id="myChart"></canvas>
+        <h1 class="text-center" id="title2"></h1>
         <canvas id="myChart2"></canvas>
       </div>
     </div>
@@ -101,10 +102,14 @@
         // }
       }
     }
+    const title = document.getElementById('title');
+    const title2 = document.getElementById('title2');
+    title.innerHTML = getQueryVariable('code') + '-' + getQueryVariable('stock');
+
 
     let startDataX;
     let endDataX;
-    $.post("http://192.168.137.128:5000/get_stock_kline",
+    $.post("http://127.0.0.1:5000/get_stock_kline",
       {
         stockNo: getQueryVariable('code')
       },
@@ -180,8 +185,10 @@
             const canvasPosition = Chart.helpers.getRelativePosition(evt, chart);
             endDataX = chart.scales.x.getValueForPixel(canvasPosition.x);
             drag = false;
+            console.log(startDataX)
+            console.log(endDataX)
             if (startDataX !== endDataX) {
-              $.post("http://192.168.1.102:5000/match_kline",
+              $.post("http://127.0.0.1:5000/match_kline",
                 {
                   target: getQueryVariable('code'),
                   start: startDataX,
@@ -189,7 +196,8 @@
                 },
                 function (data, status) {
                   console.log(data)
-                  $.post("http://192.168.137.128:5000/get_stock_kline",
+                  title2.innerHTML = data;
+                  $.post("http://127.0.0.1:5000/get_stock_kline",
                     {
                       stockNo: data
                     },

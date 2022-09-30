@@ -102,7 +102,7 @@
   </div>
   <script>
     function scan(start){
-      $.post("http://192.168.137.128:5000/get_stock_board",
+      $.post("http://127.0.0.1:5000/get_stock_board",
       {
         limit: 10,
         start: start
@@ -115,7 +115,7 @@
           data = data.data;
           data.forEach(info => {
             const isGreen = info.f3 < 0 ? ` style="color: green;"` :  ` style="color: red;"`;
-            const e = `<tr> <th scope="row"><a href='./kline.html?code=${info.f12}'>${info.f12}</a></th> <th><a href='./trends.html?code=${info.f12}'>${info.f14}</a></th> <th>${info.f2} <th${isGreen}>${info.f3}%<th>${info.f4} <th>${info.f5} <th>${info.f6}</th> <th>${info.f7}%</th> <th>${info.f15}</th> <th>${info.f16}</th> <th>${info.f17}</th> <th>${info.f18}</th> <th>${info.f10}</th> <th>${info.f8}%</th> <th>${info.f9}</th> <th>${info.f23}</th></tr>`;
+            const e = `<tr> <th scope="row"><a href='./kline.html?code=${info.f12}&stock=${info.f14}'>${info.f12}</a></th> <th><a href='./trends.html?code=${info.f12}&stock=${info.f14}'>${info.f14}</a></th> <th>${info.f2} <th${isGreen}>${info.f3}%<th>${info.f4} <th>${info.f5} <th>${info.f6}</th> <th>${info.f7}%</th> <th>${info.f15}</th> <th>${info.f16}</th> <th>${info.f17}</th> <th>${info.f18}</th> <th>${info.f10}</th> <th>${info.f8}%</th> <th>${info.f9}</th> <th>${info.f23}</th></tr>`;
             table.innerHTML += e;
           });
           const end = data[data.length-1].f12;

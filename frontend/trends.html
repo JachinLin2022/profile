@@ -46,7 +46,7 @@
 
   <div id="content">
     <div class="container">
-      <h1 class="text-center">Article Search</h1>
+      <h1 class="text-center" id="stock_title"></h1>
       <div>
         <canvas id="myChart"></canvas>
       </div>
@@ -94,8 +94,9 @@
       type: 'line',
       data: data,
     };
-
-    $.post("http://192.168.137.128:5000/get_stock_trend",
+    const title = document.getElementById('stock_title');
+    title.innerHTML = getQueryVariable('code') + '-' + getQueryVariable('stock');
+    $.post("http://127.0.0.1:5000/get_stock_trend",
       {
         stockNo: getQueryVariable('code')
       },

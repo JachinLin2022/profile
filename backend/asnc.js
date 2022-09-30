@@ -4,23 +4,31 @@ process.setMaxListeners(0);
 var es =  new Client({
     node: 'http://192.168.137.128:9200'
   });
-var client = hbase({ host: '192.168.137.129', port: 8888});
+var client = hbase({ host: '192.168.137.128', port: 8888});
 var scanner = client
                 .table('news')
                 .scan({
                 });
-var count = 0;
+let count = 0;
 let article = {};
+const index = 'test';
+const limit = 800000;
+const start = new Date().getTime();
+//扫描Hbase表
 scanner.on('readable', function(){
     var chunk;
-    //_results = [];
     while (chunk = scanner.read()) {
-        // console.log(chunk);
+      // 列式存储，判断某一行的结束
         if (article.title && article.title !== chunk.key) {
+            count ++;
+            if(count===limit){
+              const end = new Date().getTime();
+              console.log(end-start);
+              break;
+            }
+            // 写入ElasticSearch，content截取正文50个字符
             es.index({
-              index: 'financial_data',
-              // type: '_doc',
-              // id: article.title,
+              index: index,
               body: {
                 title: article.title,
                 content: article.content.substr(0, 50),
@@ -35,30 +43,16 @@ scanner.on('readable', function(){
         } else if(chunk.column === 'article:content') {
           article.content = chunk.$;
         }
-
-        // count ++;
-        // if (count===7){
-        //     break;
-        // }
-
-
-        // article.content = chunk ? chunk.$ : '';
-        // console.log(chunk);
-        // chunk = scanner.read();
-        // article.title = chunk ? chunk.$ : '';
-        // console.log(chunk);
-        // chunk = scanner.read();
-        // article.url = chunk ? chunk.$ : '';
-        // console.log(article);
-
     }        
     });
 scanner.on('error', function(err) {
     console.error(err);
     });
 scanner.on('end', function(){
+  const end = new Date().getTime();
+  console.log(end-start);
   es.index({
-    index: 'financial_data',
+    index: index,
     // type: '_doc',
     // id: article.title,
     body: {

@@ -46,7 +46,6 @@
   <div id="content">
     <div class="container">
       <h1 class="text-center" style="padding-top: 1%;">Article Search</h1>
-      <p class="text-center">文章数量：</p>
       <br>
       <div class="input-group rounded">
         <input type="search" class="form-control rounded" placeholder="Enter article title" aria-label="Search"
@@ -107,7 +106,7 @@
         return;
       }
       spinner.classList.remove('visually-hidden');
-      $.post("http://192.168.1.102:5000/search_article",
+      $.post("http://127.0.0.1:5000/search_article",
         {
           keyword: keyword
         },
